@@ -37,24 +37,51 @@ namespace Lesson1
 
             //---------task2---------------------------------------------------------------------------------------------------------------
 
-            using (AcademyContext context = new AcademyContext())
-            {
-                context.Database.EnsureCreated();
-            }
+            //using (AcademyContext context = new AcademyContext())
+            //{
+            //    context.Database.EnsureCreated();
+            //}
+
+            //using (AcademyContext context = new AcademyContext())
+            //{
+            //    var newUser = new Teacher()
+            //    {
+            //        EmploymentDate = DateOnly.FromDateTime(DateTime.Today),
+            //        Name = "Howard",
+            //        Premium = 1000,
+            //        Salary = 10000,
+            //        Surname = "Earl"
+            //    };
+
+            //    context.Teachers.Add(newUser);
+            //    context.SaveChanges();
+            //}
+
+            //using (AcademyContext context = new AcademyContext())
+            //{
+            //    foreach (var teacher in context.Teachers)
+            //    {
+            //        Console.WriteLine($"Id: {teacher.Id}, Employment Date: {teacher.EmploymentDate}, First Name: {teacher.Name}, Last Name: {teacher.Surname}, Premium: {teacher.Premium}, Salary: {teacher.Salary}");
+            //    }
+            //}
+
+            //---------task3---------------------------------------------------------------------------------------------------------------
 
             using (AcademyContext context = new AcademyContext())
             {
-                var newUser = new Teacher()
+                var updUser = context.Teachers.SingleOrDefault(e => e.Name.Equals("Howard"));
+
+                if (updUser != null)
                 {
-                    EmploymentDate = DateOnly.FromDateTime(DateTime.Today),
-                    Name = "Howard",
-                    Premium = 1000,
-                    Salary = 10000,
-                    Surname = "Earl"
-                };
+                    updUser.EmploymentDate = DateOnly.FromDateTime(DateTime.Today);
+                    updUser.Name = "Speedy";
+                    updUser.Premium = 3000;
+                    updUser.Salary = 1000000;
+                    updUser.Surname = "Gonzales";
 
-                context.Teachers.Add(newUser);
-                context.SaveChanges();
+                    context.Update(updUser);
+                    context.SaveChanges();
+                }
             }
 
             using (AcademyContext context = new AcademyContext())
