@@ -91,8 +91,59 @@ namespace Lesson1
                     Console.WriteLine($"Id: {teacher.Id}, Employment Date: {teacher.EmploymentDate}, First Name: {teacher.Name}, Last Name: {teacher.Surname}, Premium: {teacher.Premium}, Salary: {teacher.Salary}");
                 }
             }
+
+            //---------task4---------------------------------------------------------------------------------------------------------------
+
+            using (var context = new MenuContext())
+            {
+                context.Database.EnsureCreated();
+            }
+
+            using (var context = new MenuContext())
+            {
+                var dish = new Menu { DishName = "Burger", Price = 150 };
+                context.Dishes.Add(dish);
+                context.SaveChanges();
+
+                var dishCollection = new List<Menu>
+                {
+                    new Menu { DishName = "Le Borsch", Price = 200 },
+                    new Menu { DishName = "Hot Dogs", Price = 180 },
+                    new Menu { DishName = "French Fries", Price = 120 }
+                };
+
+                context.Dishes.AddRange(dishCollection);
+                context.SaveChanges();
+            }
+
+            using (var context = new MenuContext())
+            {
+                if (context.Database.CanConnect())
+                {
+                    var soupDishes = context.Dishes.Where(e => e.DishName.Contains("Borsch")).ToList();
+                    var dishById = context.Dishes.Where(e => e.Id == 2);
+                    var lastDish = context.Dishes.OrderByDescending(e => e.Id).FirstOrDefault();
+                }
+            }
+
         }
     }
+    public class Menu
+    {
+        public int Id { get; set; }
+        public string DishName { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    public class MenuContext : DbContext
+    {
+        public DbSet<Menu> Dishes { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=localhost;Database=Menu;Trusted_Connection=True;TrustServerCertificate=True;");
+        }
+    }
+
 
     //public class User
     //{
