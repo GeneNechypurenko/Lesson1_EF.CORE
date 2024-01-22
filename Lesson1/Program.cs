@@ -7,50 +7,82 @@ namespace Lesson1
     {
         static void Main(string[] args)
         {
-            using (AppContext appContext = new AppContext())
+            //---------task1---------------------------------------------------------------------------------------------------------------
+
+            //using (AppContext appContext = new AppContext())
+            //{
+            //    appContext.Database.EnsureCreated();
+            //}
+
+            //using (AppContext appContext = new AppContext())
+            //{
+            //    var newUser = new User
+            //    {
+            //        FirstName = "John",
+            //        LastName = "Travolta",
+            //        Email = "travolta@hollywood.com"
+            //    };
+
+            //    appContext.Users.Add(newUser);
+            //    appContext.SaveChanges();
+            //}
+
+            //using (AppContext appContext = new AppContext())
+            //{
+            //    foreach (var user in appContext.Users)
+            //    {
+            //        Console.WriteLine($"Id: {user.Id}, First Name: {user.FirstName}, Last Name: {user.LastName}, Email: {user.Email}");
+            //    }
+            //}
+
+            //---------task2---------------------------------------------------------------------------------------------------------------
+
+            using (AcademyContext context = new AcademyContext())
             {
-                appContext.Database.EnsureCreated();
+                context.Database.EnsureCreated();
             }
 
-            using (AppContext appContext = new AppContext())
+            using (AcademyContext context = new AcademyContext())
             {
-                var newUser = new User
+                var newUser = new Teacher()
                 {
-                    FirstName = "John",
-                    LastName = "Travolta",
-                    Email = "travolta@hollywood.com"
+                    EmploymentDate = DateOnly.FromDateTime(DateTime.Today),
+                    Name = "Howard",
+                    Premium = 1000,
+                    Salary = 10000,
+                    Surname = "Earl"
                 };
 
-                appContext.Users.Add(newUser);
-                appContext.SaveChanges();
+                context.Teachers.Add(newUser);
+                context.SaveChanges();
             }
 
-            using (AppContext appContext = new AppContext())
+            using (AcademyContext context = new AcademyContext())
             {
-                foreach (var user in appContext.Users)
+                foreach (var teacher in context.Teachers)
                 {
-                    Console.WriteLine($"Id: {user.Id}, First Name: {user.FirstName}, Last Name: {user.LastName}, Email: {user.Email}");
+                    Console.WriteLine($"Id: {teacher.Id}, Employment Date: {teacher.EmploymentDate}, First Name: {teacher.Name}, Last Name: {teacher.Surname}, Premium: {teacher.Premium}, Salary: {teacher.Salary}");
                 }
             }
         }
     }
 
-    public class User
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-    }
+    //public class User
+    //{
+    //    public int Id { get; set; }
+    //    public string FirstName { get; set; }
+    //    public string LastName { get; set; }
+    //    public string Email { get; set; }
+    //}
 
-    public class AppContext : DbContext
-    {
-        public DbSet<User> Users { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=Users;Trusted_Connection=True;TrustServerCertificate=True;");
-        }
-    }
+    //public class AppContext : DbContext
+    //{
+    //    public DbSet<User> Users { get; set; }
+    //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    {
+    //        optionsBuilder.UseSqlServer("Server=localhost;Database=Users;Trusted_Connection=True;TrustServerCertificate=True;");
+    //    }
+    //}
 }
 
 //Scaffold-DbContext "Server=localhost;Database=Academy;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer
